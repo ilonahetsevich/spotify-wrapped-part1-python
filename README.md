@@ -165,3 +165,76 @@ print(df_combined.head())
 
 ```
 <br />
+
+<h3>Step 4. Exporting data to CSV </h3> 
+
+```python
+#Step 4. Export data to CSV to continue analysis in Snowflake
+
+# Export the DataFrame to a CSV file
+output_file = 'spotify_data_processed.csv'
+df_combined.to_csv(output_file, index=False)
+
+print(f"DataFrame has been exported to {output_file}")
+```
+
+<br />
+<h3>Step 5. Retrieving Genre data using Spotify API </h3> 
+<p>The original files prepared by Spotify didn’t contain genre information, so I used the Spotify API to retrieve it. In addition to using Python packages like Pandas and NumPy for data manipulation and analysis, I also needed to install the Spotipy library to interact with the Spotify API.
+<br />
+I set up Spotify API credentials and created a function to fetch genres for each artist by searching the Spotify database, then applied this function to a list of unique artist names from a CSV file I’ve prepared at step 4, added the genres to the dataset, and saved the updated file with the new "Genres" column.
+<br />
+Then I exported the cleaned and transformed data into 2 CV files for further exploration using SQL in Snowflake.
+</p>
+
+```python
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+# Step 1: Set up Spotify API credentials
+client_id = "My client ID"  
+client_secret = "My client secret"  
+
+# Authenticate with Spotify API
+sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret))
+
+# Step 2: Function to fetch genres for an artist
+def get_artist_genres(artist_name):
+    try:
+        # Search for the artist
+        results = sp.search(q=f'artist:{artist_name}', type='artist', limit=1)
+        if results['artists']['items']:
+            artist = results['artists']['items'][0]
+            return ', '.join(artist.get('genres', []))  
+        else:
+            return "Not Found"
+    except Exception as e:
+        return f"Error: {e}"
+
+# Step 3: Load the CSV file
+input_file = "spotify_data_processed.csv"  
+output_file = "artists_with_genres_all.csv"  
+
+# Load the list of artists
+df = pd.read_csv(input_file)
+artist_names = df['artist_name'].dropna().unique()  # Get unique artist names
+
+# Step 4: Add the `Genres` column
+genres = []  
+
+for artist in artist_names:
+    print(f"Fetching genres for: {artist}...")
+    genre = get_artist_genres(artist)  # Fetch genres
+    genres.append(genre)  # Append to the list
+    time.sleep(1)  # Pause for 1 second to avoid hitting rate limits
+
+# Step 5: Save the updated DataFrame
+df['Genres'] = genres[:len(df)]  
+df.to_csv(output_file, index=False)
+
+print(f"Genres added and saved to {output_file}!")
+```
+
+<br />
+<br />
+<p>For the second part of the project, please refer to…</p>
