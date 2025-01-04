@@ -162,10 +162,10 @@ print(f"DataFrame has been exported to {output_file}")
 
 <br />
 <h3>Step 5. Retrieving Genre data using Spotify API </h3> 
-<p>The original files prepared by Spotify didn’t contain genre information, so I used the Spotify API to retrieve it. In addition to using Python packages like Pandas and NumPy for data manipulation and analysis, I also needed to install the Spotipy library to interact with the Spotify API.
-<br />
-I set up Spotify API credentials and created a function to fetch genres for each artist by searching the Spotify database, then applied this function to a list of unique artist names from a CSV file I’ve prepared at step 4, added the genres to the dataset, and saved the updated file with the new "Genres" column.
-<br />
+<p>The original files prepared by Spotify didn’t contain genre information, so I used the Spotify API to retrieve it. In addition to using Python packages like Pandas and NumPy for data manipulation and analysis, I also needed to install the Spotipy library to interact with the Spotify API.</p>
+<p>
+I set up Spotify API credentials and created a function to fetch genres for each artist by searching the Spotify database, then applied this function to a list of unique artist names from a CSV file I’ve prepared at step 4, added the genres to the dataset, and saved the updated file with the new "Genres" column.</p>
+<p>
 Then I exported the cleaned and transformed data into 2 CV files for further exploration using SQL in Snowflake.
 </p>
 
