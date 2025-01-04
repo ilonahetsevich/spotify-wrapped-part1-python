@@ -1,5 +1,5 @@
 <h1>Spotify Wrapped: A Deep Dive Into 8 Years of Data
-  <br />
+<br />
 Part 1. Retrieving Data From Spotify Using Python and Spotify API
 </h1>
 
@@ -15,12 +15,13 @@ Part 1. Retrieving Data From Spotify Using Python and Spotify API
 <br />
 
 - <b>Requesting My Listening Data</b>
+
 <p>Spotify allows users to request their historical listening data. I submitted my request through the Spotify Privacy Page. After a few days, I received severalJSON files containing my listening history, along with a helpful "Read Me First" guide that explained the structure of the data.</p>
 
-<img src="/images/spotify_request_data_screen.jpeg" height="50%" width="50%" alt="Disk Sanitization Steps"/>
+<img src="/images/spotify_request_data_screen.jpeg" height="50%" width="50%" alt="Download Spotify Data"/>
 <br />
 <br />
-<img src="/images/spotify_json_files.png" height="100%" width="100%" alt="Disk Sanitization Steps"/>
+<img src="/images/spotify_json_files.png" height="80%" width="80%" alt="Spotify listening history json files"/>
 <br />
 <br />
 
@@ -28,11 +29,12 @@ Part 1. Retrieving Data From Spotify Using Python and Spotify API
 - <b>Setting Up Spotify Developer Access</b>
 <p>To go further, I needed to connect to Spotify's API to access the genre data which was not available in the json files provided.  I headed over to the Spotify Developers Page to create a developer account and enerate a Client ID and Client Secret for API authentication.</p>
 
-<img src="/images/spotify_request_data_screen.jpeg" height="50%" width="50%" alt="Disk Sanitization Steps"/>
-<br />
+<img src="/images/spotify_for_developers.png" height="80%" width="80%" alt="Spotify for developers account"/>
 <br />
 
+
 <p>With these initial steps completed, I was ready to move on to data retrieval and exploration.</p>
+<br />
 <br />
 <h2>Project walk-through:</h2>
 
