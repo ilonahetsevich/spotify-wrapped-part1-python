@@ -38,15 +38,41 @@ Part 1. Retrieving Data From Spotify Using Python and Spotify API
 <br />
 <h2>Project walk-through:</h2>
 
-- <b>PowerShell</b> 
-- <b>Diskpart</b>
+<h3>Step 1. Importing relevant Python packages </h3> 
 
-<p align="center">
-Launch the utility: <br/>
-<img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+```python
+# Step 1.Import relevant Python packages
+
+import pandas as pd
+import numpy as np
+
+```
 <br />
+
+<h3>Step 2. Uploading data </h3> 
+
+```python
+#Step 2.Upload data
+
+# File paths to 3 JSON files from Spotify
+file_path_1 = 'Streaming_History_Audio_2017-2019_0.json'
+file_path_2 = 'Streaming_History_Audio_2019-2021_1.json'
+file_path_3 = 'Streaming_History_Audio_2021-2024_2.json'
+
+# Read each JSON file into a DataFrame
+df1 = pd.read_json(file_path_1)
+df2 = pd.read_json(file_path_2)
+df3 = pd.read_json(file_path_3)
+
+# Combine the DataFrames using concat function, ingnore Index
+df_combined = pd.concat([df1, df2, df3], ignore_index=True)
+
+# Pring the combined DataFrame
+print(df_combined.head())
+
+```
 <br />
-<br />
-<img src="/images/spotify_wrapped_python_dataset_image.png" height="50%" width="50%" alt="Disk Sanitization Steps"/>
-<br />
+
+<img src="/images/spotify_wrapped_python_dataset_image.png" height="50%" width="50%" alt="The output of a DataFrame in Python"/>
+<p><i>This image shows the output of a DataFrame in Python, specifically the first few rows of a combined dataset</i></p>
 <br />
