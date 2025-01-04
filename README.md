@@ -76,3 +76,92 @@ print(df_combined.head())
 <img src="/images/spotify_wrapped_python_dataset_image.png" height="50%" width="50%" alt="The output of a DataFrame in Python"/>
 <p><i>This image shows the output of a DataFrame in Python, specifically the first few rows of a combined dataset</i></p>
 <br />
+
+<h3>Step 3. Preparing the data </h3> 
+<p>I loaded three JSON files containing 8 years of my listening history into Python, cleaned the data by removing sensitive information like my IP address, transformed it by converting milliseconds into seconds and minutes, and enriched the dataset by adding new columns such as year/month from timestamps and categorizing tracks into “Music” and “Podcasts.”</p>
+
+```python
+#Step 3. Preparing the data
+# 3.1 Clean the data, transform it, add additional columns
+
+# Drop the ip_addr column as it is sensitive information
+df_combined = df_combined.drop(columns=['ip_addr'])
+
+```
+<br />
+
+```python
+# 3.2 Create additional time variables by converting the ts column to a datetime object, 
+#then formating it to extract the year, year_month, month and date.
+
+df_combined['year'] = pd.to_datetime(df_combined['ts']).dt.strftime('%Y') 
+df_combined['year_month'] = pd.to_datetime(df_combined['ts']).dt.strftime('%Y-%m')
+df_combined['month'] = pd.to_datetime(df_combined['ts']).dt.strftime('%m')
+df_combined["date"] = pd.to_datetime(df_combined["ts"]).dt.strftime('%Y-%m-%d')
+
+print(df_combined.head())
+
+```
+<br />
+
+
+```python
+# 3.3 Convert miliseconds to seconds and minutes
+df_combined["sec_played"] = round(df_combined["ms_played"]/1000,4) #Convert milliseconds to seconds
+df_combined["min_played"] = round(df_combined["ms_played"]/1000/60,2) #Convert milliseconds to minutes
+
+print(df_combined.head())
+
+```
+<br />
+
+
+```python
+# 3.4 Classify the type of content as either "Music", "Podcast", or "Error" 
+df_combined["type"] = np.where(
+    df_combined["spotify_track_uri"].notnull(), "Music",
+    np.where(df_combined["spotify_episode_uri"].notnull(), "Podcast", "Error")
+)
+print(df_combined.head())
+
+```
+<br />
+
+```python
+# 3.5 Music vs podcast
+df_combined["type"] = np.where(~df_combined["spotify_track_uri"].isnull(), "Music", 
+                                np.where(~df_combined["spotify_episode_uri"].isnull(), "Podcast", "Error")
+                               )
+print(df.head())
+
+```
+<br />
+
+```python
+# 3.6 Classify the devices into 'mobile' or 'desktop' using regex
+df_combined['device_type'] = np.where(
+    df_combined['platform'].str.contains(r'android|ios|iphone|ipad|redmi|samsung', case=False, na=False), "mobile",
+    np.where(
+        df_combined['platform'].str.contains(r'os x|osx|web_player|desktop', case=False, na=False), "desktop",
+        "unknown"
+    )
+)
+# Drop the 'platform' column as it is sensitive information
+df_combined = df_combined.drop(columns=['platform'])
+
+# Preview the resulting DataFrame
+print(df_combined.head())
+
+```
+<br />
+
+```python
+# 3.7 Rename some variables for readability
+df_combined = df_combined.rename(columns = {'master_metadata_track_name' : 'track_name',
+                                   'master_metadata_album_artist_name' : 'artist_name',
+                                   'master_metadata_album_album_name' : 'album_name'
+                                             })
+print(df_combined.head())
+
+```
+<br />
