@@ -7,7 +7,9 @@ Part 1. Retrieving Data From Spotify Using Python and Spotify API
 
 <h2>Description</h2>
 
-<p>When Spotify Wrapped didn’t quite meet my expectations this year, I decided to create my own version! This project is all about retrieving and exploring my Spotify listening habits using Python and the Spotify API. There is a second part of this project interely focused on data analysis using SQL.</p>
+<p>When Spotify Wrapped didn’t quite meet my expectations this year, I decided to create my own version! 
+This project is all about retrieving and exploring my Spotify listening habits using Python and the Spotify API. 
+There is a second part of this project interely focused on data analysis using SQL.</p>
 <br />
 
 
@@ -16,7 +18,7 @@ Part 1. Retrieving Data From Spotify Using Python and Spotify API
 
 - <b>Requesting My Listening Data</b>
 
-<p>Spotify allows users to request their historical listening data. I submitted my request through the Spotify Privacy Page. After a few days, I received severalJSON files containing my listening history, along with a helpful "Read Me First" guide that explained the structure of the data.</p>
+<p>Spotify allows users to request their historical listening data. I submitted my request through the Spotify Privacy Page. After a few days, I received several JSON files containing my listening history, along with a helpful "Read Me First" guide that explained the structure of the data.</p>
 
 <img src="/images/spotify_request_data_screen.jpeg" height="50%" width="50%" alt="Download Spotify Data"/>
 <br />
@@ -27,7 +29,7 @@ Part 1. Retrieving Data From Spotify Using Python and Spotify API
 
 
 - <b>Setting Up Spotify Developer Access</b>
-<p>To go further, I needed to connect to Spotify's API to access the genre data which was not available in the json files provided.  I headed over to the Spotify Developers Page to create a developer account and enerate a Client ID and Client Secret for API authentication.</p>
+<p>To go further, I needed to connect to Spotify's API to access the genre data which was not available in the json files provided.  I headed over to the Spotify Developers Page to create a developer account and generate a Client ID and Client Secret for API authentication.</p>
 
 <img src="/images/spotify_for_developers.png" height="80%" width="80%" alt="Spotify for developers account"/>
 <br />
@@ -78,13 +80,11 @@ print(df_combined.head())
 <br />
 
 <h3>Step 3. Preparing the data </h3> 
-<p>I loaded three JSON files containing 8 years of my listening history into Python, cleaned the data by removing sensitive information like my IP address, transformed it by converting milliseconds into seconds and minutes, and enriched the dataset by adding new columns such as year/month from timestamps and categorizing tracks into “Music” and “Podcasts.”</p>
+<p>I loaded 3 JSON files containing 8 years of my listening history into Python, cleaned the data by removing sensitive information like my IP address, transformed it by converting milliseconds into seconds and minutes, and enriched the dataset by adding new columns such as year/month from timestamps and categorizing tracks into “Music” and “Podcasts.”</p>
 
 ```python
 #Step 3. Preparing the data
-# 3.1 Clean the data, transform it, add additional columns
-
-# Drop the ip_addr column as it is sensitive information
+# 3.1 Drop the ip_addr column as it is sensitive information
 df_combined = df_combined.drop(columns=['ip_addr'])
 
 ```
@@ -99,7 +99,6 @@ df_combined['year_month'] = pd.to_datetime(df_combined['ts']).dt.strftime('%Y-%m
 df_combined['month'] = pd.to_datetime(df_combined['ts']).dt.strftime('%m')
 df_combined["date"] = pd.to_datetime(df_combined["ts"]).dt.strftime('%Y-%m-%d')
 
-print(df_combined.head())
 
 ```
 <br />
@@ -110,7 +109,6 @@ print(df_combined.head())
 df_combined["sec_played"] = round(df_combined["ms_played"]/1000,4) #Convert milliseconds to seconds
 df_combined["min_played"] = round(df_combined["ms_played"]/1000/60,2) #Convert milliseconds to minutes
 
-print(df_combined.head())
 
 ```
 <br />
@@ -122,23 +120,14 @@ df_combined["type"] = np.where(
     df_combined["spotify_track_uri"].notnull(), "Music",
     np.where(df_combined["spotify_episode_uri"].notnull(), "Podcast", "Error")
 )
-print(df_combined.head())
 
 ```
 <br />
 
-```python
-# 3.5 Music vs podcast
-df_combined["type"] = np.where(~df_combined["spotify_track_uri"].isnull(), "Music", 
-                                np.where(~df_combined["spotify_episode_uri"].isnull(), "Podcast", "Error")
-                               )
-print(df.head())
 
-```
-<br />
 
 ```python
-# 3.6 Classify the devices into 'mobile' or 'desktop' using regex
+# 3.5 Classify the devices into 'mobile' or 'desktop' using regex
 df_combined['device_type'] = np.where(
     df_combined['platform'].str.contains(r'android|ios|iphone|ipad|redmi|samsung', case=False, na=False), "mobile",
     np.where(
@@ -148,20 +137,15 @@ df_combined['device_type'] = np.where(
 )
 # Drop the 'platform' column as it is sensitive information
 df_combined = df_combined.drop(columns=['platform'])
-
-# Preview the resulting DataFrame
-print(df_combined.head())
-
 ```
 <br />
 
 ```python
-# 3.7 Rename some variables for readability
+# 3.6 Rename some variables for readability
 df_combined = df_combined.rename(columns = {'master_metadata_track_name' : 'track_name',
                                    'master_metadata_album_artist_name' : 'artist_name',
                                    'master_metadata_album_album_name' : 'album_name'
                                              })
-print(df_combined.head())
 
 ```
 <br />
@@ -169,9 +153,7 @@ print(df_combined.head())
 <h3>Step 4. Exporting data to CSV </h3> 
 
 ```python
-#Step 4. Export data to CSV to continue analysis in Snowflake
-
-# Export the DataFrame to a CSV file
+#Step 4. Export the DataFrame to a CSV file
 output_file = 'spotify_data_processed.csv'
 df_combined.to_csv(output_file, index=False)
 
