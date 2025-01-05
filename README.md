@@ -19,19 +19,21 @@ There is a second part of this project interely focused on data analysis using S
 - <b>Requesting My Listening Data</b>
 
 <p>Spotify allows users to request their historical listening data. I submitted my request through the Spotify Privacy Page. After a few days, I received several JSON files containing my listening history, along with a helpful "Read Me First" guide that explained the structure of the data.</p>
-
+<p align="center">
 <img src="/images/spotify_request_data_screen.jpeg" height="50%" width="50%" alt="Download Spotify Data"/>
 <br />
 <br />
 <img src="/images/spotify_json_files.png" height="80%" width="80%" alt="Spotify listening history json files"/>
+</p>
 <br />
 <br />
 
 
 - <b>Setting Up Spotify Developer Access</b>
 <p>To go further, I needed to connect to Spotify's API to access the genre data which was not available in the json files provided.  I headed over to the Spotify Developers Page to create a developer account and generate a Client ID and Client Secret for API authentication.</p>
-
+<p align="center">
 <img src="/images/spotify_for_developers.png" height="80%" width="80%" alt="Spotify for developers account"/>
+</p>
 <br />
 
 
@@ -75,8 +77,11 @@ print(df_combined.head())
 ```
 <br />
 
+<div align="center">
 <img src="/images/spotify_wrapped_python_dataset_image.png" height="50%" width="50%" alt="The output of a DataFrame in Python"/>
-<p><i>This image shows the output of a DataFrame in Python, specifically the first few rows of a combined dataset</i></p>
+<p><i><sub>This image shows the output of a DataFrame in Python, specifically the first few rows of a combined dataset</sub></i></p>
+</div>
+
 <br />
 
 <h3>Step 3. Preparing the data </h3> 
@@ -135,6 +140,7 @@ df_combined['device_type'] = np.where(
         "unknown"
     )
 )
+
 # Drop the 'platform' column as it is sensitive information
 df_combined = df_combined.drop(columns=['platform'])
 ```
