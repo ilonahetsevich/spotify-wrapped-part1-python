@@ -225,4 +225,9 @@ print(f"Genres added and saved to {output_file}!")
 
 <br />
 <br />
-<p>For the second part of the project, please refer to…</p>
+
+---
+
+<h3>For the second part of the project, please refer to: ⤵️</h3>
+
+[Spotify Wrapped: A Deep Dive Into 8 Years of Data. Part 2. Analyzing Spotify Data Using SQL](https://github.com/ilonahetsevich/spotify-wrapped-part2-sql/tree/main) 
